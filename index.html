@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>インタラクティブ・レポート：ローマ字表記、教育と技術の課題</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: A thematic single-page application with smooth-scrolling navigation. The structure is designed to guide the user from the core conflict (Kunrei vs. Hepburn), through interactive comparisons and the specific GIGA school problem, to the proposed solutions. This non-linear, thematic approach is more engaging and intuitive for understanding the multifaceted issue than the original report's linear structure. Key interactions include a kana comparison tool and a simulated IME input field to make abstract concepts tangible. -->
+    <!-- Visualization & Content Choices: The report's tables are transformed into interactive elements. Table 1 (Kana comparison) becomes a clickable button interface (Goal: Compare, Method: Interactive HTML/JS, Justification: More engaging than a static table). Table 2 (IME flexibility) becomes a simulated text input (Goal: Inform/Demonstrate, Method: Interactive HTML/JS, Justification: Directly demonstrates the concept of "cognitive friction" vs. technical reality). No quantitative data exists, so charts (Chart.js/Plotly) are not used. All diagrams are built with HTML/CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .active-nav {
+            color: #c2410c;
+            font-weight: 600;
+            border-bottom-color: #c2410c;
+        }
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover {
+            color: #ea580c;
+            border-bottom-color: #ea580c;
+        }
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <header id="header" class="bg-stone-100/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-orange-800">ローマ字の課題</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 text-sm font-medium">概要</a>
+                        <a href="#conflict" class="nav-link px-3 py-2 text-sm font-medium">2つの方式</a>
+                        <a href="#comparison" class="nav-link px-3 py-2 text-sm font-medium">表記の比較</a>
+                        <a href="#giga" class="nav-link px-3 py-2 text-sm font-medium">GIGAスクールの課題</a>
+                        <a href="#future" class="nav-link px-3 py-2 text-sm font-medium">未来への提言</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <section id="intro" class="text-center mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl md:text-5xl font-extrabold text-stone-900 mb-4">ローマ字表記、<span class="text-orange-700">70年ぶり</span>の大転換か？</h2>
+            <p class="max-w-3xl mx-auto text-base md:text-lg text-stone-600">
+                文化審議会の答申をきっかけに、日本のローマ字表記が大きく変わろうとしています。小学校で習う「訓令式」と、社会で広く使われる「ヘボン式」。この二つの方式がなぜ存在するのか、そしてGIGAスクール構想によって生まれた新たな課題とは何か。このレポートでは、その核心に迫ります。
+            </p>
+        </section>
+
+        <section id="conflict" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-stone-900">目的が異なる、2つのローマ字</h3>
+                <p class="text-stone-600 mt-2">なぜ2種類の方式が使われ続けているのか。それは、それぞれの目的と成り立ちが根本的に異なるからです。</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <div class="card bg-white p-8 rounded-xl border border-stone-200">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">📖</div>
+                        <h4 class="text-xl font-bold text-blue-800 mb-2">訓令式 (Kunrei-shiki)</h4>
+                        <p class="text-sm font-semibold bg-blue-100 text-blue-700 inline-block px-3 py-1 rounded-full mb-4">国内的・教育的</p>
+                        <p class="text-stone-600 text-left">
+                            日本語の音韻構造を体系的に理解するために作られました。「か行はK、さ行はS」のように子音を統一し、五十音図の規則性を学ぶためのツールです。小学校の国語教育で採用されているのはこのためです。
+                        </p>
+                    </div>
+                </div>
+                <div class="card bg-white p-8 rounded-xl border border-stone-200">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">🌐</div>
+                        <h4 class="text-xl font-bold text-green-800 mb-2">ヘボン式 (Hepburn)</h4>
+                        <p class="text-sm font-semibold bg-green-100 text-green-700 inline-block px-3 py-1 rounded-full mb-4">国際的・実用的</p>
+                        <p class="text-stone-600 text-left">
+                            主に英語を話す人が発音しやすいように作られました。パスポートや駅名、道路標識など、国際的な場面や社会の様々な場所で事実上の標準（デファクトスタンダード）として広く使われています。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-stone-900">インタラクティブ比較：どっちで書く？</h3>
+                <p class="text-stone-600 mt-2">下のボタンをクリックして、訓令式とヘボン式の表記の違いを実際に確かめてみましょう。</p>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200">
+                    <div class="flex justify-center flex-wrap gap-2 md:gap-3 mb-6">
+                        <button data-kana="ち" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">ち</button>
+                        <button data-kana="し" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">し</button>
+                        <button data-kana="つ" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">つ</button>
+                        <button data-kana="ふ" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">ふ</button>
+                        <button data-kana="ぢ" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">ぢ</button>
+                        <button data-kana="づ" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">づ</button>
+                        <button data-kana="しゃ" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">しゃ</button>
+                        <button data-kana="じゃ" class="kana-btn bg-stone-200 hover:bg-orange-200 text-stone-700 font-bold py-2 px-4 rounded-lg transition-colors">じゃ</button>
+                    </div>
+                    <div id="comparison-display" class="bg-stone-50 p-6 rounded-lg min-h-[160px] flex items-center justify-center">
+                        <div class="text-center text-stone-500">ボタンを選択してください</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="giga" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-stone-900">GIGAスクールの課題：技術の問題ではない</h3>
+                <p class="text-stone-600 mt-2">一人一台端末の時代。子どもたちの混乱は、キーボード入力の「技術的な制約」ではなく、「認知的な摩擦」から生まれています。</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+                <div class="card bg-white p-8 rounded-xl border border-stone-200">
+                    <h4 class="text-xl font-bold mb-4 text-center">課題の本質：認知的摩擦</h4>
+                     <div class="flex items-center justify-around text-center">
+                        <div class="w-2/5">
+                            <div class="text-4xl">🏫</div>
+                            <p class="font-bold mt-2">学校で習うルール</p>
+                            <p class="text-stone-600 text-sm">「ち」は <code class="bg-stone-200 px-1 rounded">ti</code> と書く</p>
+                        </div>
+                        <div class="text-4xl text-orange-500 font-bold">💥</div>
+                        <div class="w-2/5">
+                            <div class="text-4xl">💻</div>
+                            <p class="font-bold mt-2">デジタルの現実</p>
+                            <p class="text-stone-600 text-sm"><code class="bg-stone-200 px-1 rounded">chi</code> でも入力できる</p>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-stone-700">学校で唯一の正解として学んだルールと、デジタル機器の柔軟な現実とのギャップが、子どもたちの混乱や「学び直し」の負担を生み出しています。これが「認知的摩擦」です。</p>
+                </div>
+                <div class="card bg-white p-8 rounded-xl border border-stone-200">
+                    <h4 class="text-xl font-bold mb-4 text-center">体験：IMEの柔軟性</h4>
+                    <p class="text-stone-600 text-center mb-4">下の入力欄に「chi」または「ti」と入力して、どちらも「ち」に変換されることを試してみてください。</p>
+                    <div class="flex items-center space-x-4">
+                        <input type="text" id="ime-input" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition" placeholder="例: chi, ti, shi, si...">
+                        <div id="ime-output" class="text-3xl font-bold w-16 h-12 flex items-center justify-center bg-stone-100 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="future" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-stone-900">未来への提言</h3>
+                <p class="text-stone-600 mt-2">この過渡期を乗り越え、言語教育とデジタル技術を調和させるために、各関係者には何が求められるでしょうか。</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card bg-white p-6 rounded-xl border border-stone-200">
+                    <h4 class="font-bold text-lg mb-2">🏛️ 政府・文科省</h4>
+                    <p class="text-stone-600 text-sm">教育現場の混乱を避けるため、明確なロードマップを提示。表記法だけでなく、具体的な入力方法のガイドラインも策定する。</p>
+                </div>
+                <div class="card bg-white p-6 rounded-xl border border-stone-200">
+                    <h4 class="font-bold text-lg mb-2">🏫 学校・教育委員会</h4>
+                    <p class="text-stone-600 text-sm">理論学習と実践的なタイピング練習のギャップを埋める指導法を確立。タイピングを通じてローマ字を学ぶアプローチも検討する。</p>
+                </div>
+                <div class="card bg-white p-6 rounded-xl border border-stone-200">
+                    <h4 class="font-bold text-lg mb-2">👨‍💻 ソフトウェア開発者</h4>
+                    <p class="text-stone-600 text-sm">学習初期の子どもたちの認知的な負担を減らすため、入力方法を統一できる「教育用ローマ字入力モード」をIMEに搭載する。</p>
+                </div>
+                <div class="card bg-white p-6 rounded-xl border border-stone-200">
+                    <h4 class="font-bold text-lg mb-2">👨‍👩‍👧‍👦 保護者・児童</h4>
+                    <p class="text-stone-600 text-sm">ローマ字が日本語理解とデジタルスキルの両方にとって重要だと認識。家庭でもタイピング練習を積極的に取り入れる。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
+            <p>&copy; 2025 Interactive Romaji Report. All rights reserved.</p>
+            <p class="mt-1">このページは提供された報告書に基づき、情報を視覚的・対話的に再構成したものです。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const comparisonData = {
+                'ち': { kunrei: 'ti', hepburn: 'chi' },
+                'し': { kunrei: 'si', hepburn: 'shi' },
+                'つ': { kunrei: 'tu', hepburn: 'tsu' },
+                'ふ': { kunrei: 'hu', hepburn: 'fu' },
+                'ぢ': { kunrei: 'di', hepburn: 'ji' },
+                'づ': { kunrei: 'du', hepburn: 'zu' },
+                'しゃ': { kunrei: 'sya', hepburn: 'sha' },
+                'じゃ': { kunrei: 'zya', hepburn: 'ja / jya' }
+            };
+
+            const kanaButtons = document.querySelectorAll('.kana-btn');
+            const display = document.getElementById('comparison-display');
+
+            kanaButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const kana = button.dataset.kana;
+                    const data = comparisonData[kana];
+                    
+                    display.innerHTML = `
+                        <div class="w-full text-center">
+                            <div class="text-5xl font-bold mb-4">${kana}</div>
+                            <div class="flex justify-around">
+                                <div class="w-1/2">
+                                    <p class="text-sm text-blue-700 font-semibold">訓令式</p>
+                                    <p class="text-2xl font-mono font-bold text-stone-800">${data.kunrei}</p>
+                                </div>
+                                <div class="w-1/2">
+                                    <p class="text-sm text-green-700 font-semibold">ヘボン式</p>
+                                    <p class="text-2xl font-mono font-bold text-stone-800">${data.hepburn}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    kanaButtons.forEach(btn => btn.classList.remove('bg-orange-400', 'text-white'));
+                    button.classList.add('bg-orange-400', 'text-white');
+                });
+            });
+
+            const imeInput = document.getElementById('ime-input');
+            const imeOutput = document.getElementById('ime-output');
+            const imeMap = {
+                'chi': 'ち', 'ti': 'ち',
+                'shi': 'し', 'si': 'し',
+                'tsu': 'つ', 'tu': 'つ',
+                'fu': 'ふ', 'hu': 'ふ',
+                'ji': 'ぢ', 'di': 'ぢ',
+                'zu': 'づ', 'du': 'づ',
+                'sha': 'しゃ', 'sya': 'しゃ',
+                'ja': 'じゃ', 'jya': 'じゃ', 'zya': 'じゃ',
+                'cho': 'ちょ', 'tyo': 'ちょ',
+                'sho': 'しょ', 'syo': 'しょ'
+            };
+
+            imeInput.addEventListener('input', () => {
+                const input = imeInput.value.toLowerCase();
+                if (imeMap[input]) {
+                    imeOutput.textContent = imeMap[input];
+                    setTimeout(() => {
+                        imeInput.value = '';
+                        imeOutput.textContent = '';
+                    }, 800);
+                } else {
+                    imeOutput.textContent = '';
+                }
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active-nav');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active-nav');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
